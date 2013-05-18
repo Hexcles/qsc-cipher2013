@@ -1,0 +1,56 @@
+body,input {
+    background-color: #020202;
+}
+input {
+    border: 2px dashed;
+}
+a,p,form,h1,h2,input {
+    color: #00E500;
+    text-shadow: 0 0 3px green;
+}
+a,p,form,input{
+    font-family: 'VT323';
+    font-size: 22px;
+}
+label {
+    margin-right: 10px;
+    font-weight: bold;
+    font-family: 'VT323';
+    font-size: 24px;
+}
+h1,h2 {
+    font-family: 'Press Start 2P';
+    font-weight: normal;
+    text-align: center;
+}
+h1 {
+    margin-bottom: 30px;
+}
+.hide {
+    color: #020202;
+    text-shadow: none;
+}
+#content {
+    width: 768px;
+    margin: 30px auto;
+}
+#pass {
+    text-align: center;
+    margin: 30px;
+}
+#keycode {
+    width: 360px;
+}
+#hidden-div {
+    height: 35px;
+    float: left;
+    text-align: center;
+    width: 100%;
+    z-index: 10;
+}
+#cover-div {
+    height: 40px;
+    background-color: #020202;
+    opacity: 0.99;
+    z-index: 100;
+}

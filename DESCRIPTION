@@ -1,0 +1,22 @@
+设计风格：
+简洁、纯文字，使用经典的终端配色风格和等宽字体。可以在页面顶端统一放置一个“QSCTech”的像素字（用Google Web Fonts之类的），下面放一些信息，再往下就是一个文本框用来提交答案（用form，GET发送到本页）。
+
+实现方式：
+单一index.php，将答案作为“key”参数通过GET提交，通过key来判断现在正处于哪一题，显示相应题目。key的形式如无特殊说明一般使用MD5（不需要是某个有意义的东西的MD5，随机生成即可）。
+
+题目：
+1. KEY用与背景色相同的颜色放在页面上，CTRL-A即可看到。
+2. KEY放在HTML注释里。
+3. 页面上放置许多<p>（近百个），每个里头都有一个MD5，但有一个<p>的ID是“key”，那个MD5即答案。同时，这个页面判断访问者的UA，如果是IE6/7/8或是360，直接提示“Aren't you kidding using this medieval browser?”
+4. 建一个文件名为“20130518.txt”的纯文本文件，内容是一串MD5（不妨设置成20130518的MD5），将其上传到Box上，提取码设置成“china_mobile”。页面上给出提示：请登陆Box下载答案，提取码为china_mobile。但是，真正的答案是文件名（即20130518），而不是那个MD5。
+5. 页面上放置一个style是hidden的div，内容是空的；并且在这个div上面叠一个div（通过z-index盖在之前那个div上面），设置background color为页面背景色；同时，填写答案的表单中加一个hidden的input，其value（称作seed）是PHP端随机生成的。页面上有一个JS函数（经过混淆），在点击了那个hidden div以后使用这个seed计算key，加入之前的那个div中。
+6. 页面中不给出任何信息，但通过PHP设置一个HTTP HEADER（“X-QSC-KEY”），其参数即key。
+7. 页面上给出提示“Post your query to me to find the KEY. The PASSCODE is QSCTECH.”把me设置成一个超链接，指向一个query.php之类的页面，选手向这个页面POST一个请求，其中有一个参数是PASSCODE，值为QSCTECH，即可返回key。
+8. 页面提示“Solve this! 6c4b0fc57f6424951316ccc0d9d59646”，答案是“2013 QSC Tech”（到时候会把这个发到能被Google索引到的页面，用Google搜索这串MD5即可得到答案）。
+9. 页面提示“What is the answer to life the universe and everything? (in a secret form)”，答案是42的MD5值（a1d0c6e83f027327d8461063f4ac58a6）。
+10.在页面上放置一串BASE64编码后的图片（图片内容是答案，尽量小一点），即image/png;base64,...这样的形式，只需要把它填进<img src="data:...">里即可看到图片，提交图片中的答案字符串即可。
+11.页面上给个链接，链到一个登陆页面（标题是“技术大赛管理系统”，要求填写用户名、密码），此页面的后端有SQL注入漏洞，可绕过验证得到key。（直接把MYSQL连接参数写在PHP源文件里，并且是用root连接，为最后一题做准备）。
+12.做一个jpg图片，内容是密码，去掉后缀名后用tar.gz压缩。把这个文件的01流输出出来放到页面上。选手必须把这些01串转为二进制流然后想办法判断文件类型（通过MIME，例如UNIX下的file命令或上网搜索文件头），得到key。
+13.页面上放个链接到一个简单的图片管理页面（即允许上传图片，并显示出所有已经上传的图片），然而上传时没有做文件名限制，导致可以上传PHP shell，进而可制造反向连接shell。拿到nobody shell后可以看到之前那个数据库注入页面的源代码，其中有MySQL的root密码。
+注意到网站根目录下有一个属主是mysql的.htaccess文件。利用MySQL的root密码，使用system函数或者dump to file功能即可修改.htaccess文件，达到使网站500的目的。
+进一步地，利用服务器上安装的gcc，尽可能植入rootkit，取得root权限。
