@@ -8,8 +8,8 @@ Insipred by SegmentFault Game, Youdao Nanti. Thanks to those geeks.
 All the source codes are in BSD license.
 
 ## Directories
-tools	Some small programs to do decode/encode work.
-upload	Upload directory(need to be writable).
+    tools	Some small programs to do decode/encode work.
+    upload	Upload directory(need to be writable).
 
 ## Database
 
